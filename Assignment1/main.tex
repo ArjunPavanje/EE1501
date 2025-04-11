@@ -1,0 +1,223 @@
+
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{circuitikz}
+\usepackage{karnaugh-map}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\title{EE1501 Assignment 1}
+\author{Arjun Pavanje}
+\date{April 2025}
+
+\begin{document}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{style}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    literate={~}{\texttt{\char126}}1,
+}
+\maketitle
+\section{4-to-2 Priority Encoder}
+\begin{itemize}
+    \item \textbf{Inputs:} A 4-bit input signal \texttt{in[3:0]}.
+    \item \textbf{Outputs:}
+    \begin{itemize}
+        \item \texttt{out[1:0]}: A 2-bit binary output indicating the position of the highest-priority input that is high.
+        \item \texttt{valid}: A 1-bit output signal set to 1 if any input bit is high; otherwise, it is set to 0.
+    \end{itemize}
+\end{itemize}
+The priority order of the inputs is: $\texttt{in[3]} > \texttt{in[2]} > \texttt{in[1]} > \texttt{in[0]}$.\newline 
+\subsection*{Approach} 
+The logic is implemented using a \texttt{casez} statement which allows for the use of don't-care conditions (denoted by \texttt{z} in the input).
+\begin{itemize}
+    \item When \texttt{in[3]} is high (\texttt{4'b1zzz}), the output \texttt{out} is set to \texttt{3} and \texttt{valid} is set to 1.
+    \item When \texttt{in[2]} is high (\texttt{4'b01zz}), the output \texttt{out} is set to \texttt{2} and \texttt{valid} is set to 1.
+    \item When \texttt{in[1]} is high (\texttt{4'b001z}), the output \texttt{out} is set to \texttt{1} and \texttt{valid} is set to 1.
+    \item When \texttt{in[0]} is high (\texttt{4'b0001}), the output \texttt{out} is set to \texttt{0} and \texttt{valid} is set to 1.
+    \item In the default case (when no input is high), the output \texttt{out} is set to \texttt{0} and \texttt{valid} is set to 0.
+\end{itemize}
+
+\texttt{casez} saves us from writing out all the cases by letting use don't cares. This way we can intelligently specify \texttt{out, valid} for a few select cases and it works for the entire range of values.
+\subsection*{Code}
+\begin{lstlisting}[style=style]
+module top_module (
+    input [3:0] in,
+    output reg [1:0] out, 
+    output reg[0:0] valid);
+    always @(*) begin
+        casez (in)
+            4'b1zzz: begin 
+                out = 2'd3;
+                valid = 1;
+            end
+            4'b01zz: begin
+                out = 2'd2; 
+                valid = 1;
+            end
+            4'b001z: begin
+                out = 2'd1;
+                valid = 1;
+            end
+            4'b0001: begin
+                out = 2'd0;
+                valid = 1;
+            end
+            default: begin
+                out = 2'd0;
+                valid = 0;
+            end
+        endcase
+    end
+endmodule
+\end{lstlisting}
+\section{4-bit Up Counter (Synchronous)}
+\begin{itemize}
+    \item \textbf{Inputs:}
+    \begin{itemize}
+        \item \texttt{clk}: Clock signal.
+        \item \texttt{reset}: Asynchronous reset signal (active high).
+        \item \texttt{enable}: Control signal to enable counting.
+    \end{itemize}
+    \item \textbf{Output:}
+    \begin{itemize}
+        \item \texttt{count[3:0]}: A 4-bit output representing the current count value.
+    \end{itemize}
+\end{itemize}
+
+\subsection*{Approach}
+\begin{itemize}
+    \item The counter is initialized to zero at the beginning using the \texttt{initial} block.
+    \item The counting behavior is controlled by the \texttt{enable, clock} signal, which allows the counter to increment when high.
+    \item When \texttt{reset} is high, the counter is asynchronously reset to zero.
+    \item On each positive edge of the \texttt{clk}, \texttt{enable} is checked. If it is high, the counter value increments using Karnaugh-Maps logic (T-flipflops used)
+\end{itemize}
+\subsection*{State Table}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\multicolumn{4}{|c|}{\textbf{Present State}} & \multicolumn{4}{c|}{\textbf{T}} & \multicolumn{4}{c|}{\textbf{Next State}} \\
+\hline
+$Q_3$ & $Q_2$ & $Q_1$ & $Q_0$ & $T_3$ & $T_2$ & $T_1$ & $T_0$ & $Q_3'$ & $Q_2'$ & $Q_1'$ & $Q_0'$ \\
+\hline
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 1 \\
+0 & 0 & 0 & 1 & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 0 \\
+0 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 1 & 1 \\
+0 & 0 & 1 & 1 & 0 & 1 & 1 & 1 & 0 & 1 & 0 & 0 \\
+0 & 1 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 1 & 0 & 1 \\
+0 & 1 & 0 & 1 & 0 & 0 & 1 & 1 & 0 & 1 & 1 & 0 \\
+0 & 1 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 1 & 1 & 1 \\
+0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 0 & 0 \\
+1 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 0 & 0 & 1 \\
+1 & 0 & 0 & 1 & 0 & 0 & 1 & 1 & 1 & 0 & 1 & 0 \\
+1 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 1 & 0 & 1 & 1 \\
+1 & 0 & 1 & 1 & 0 & 1 & 1 & 1 & 1 & 1 & 0 & 0 \\
+1 & 1 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 0 & 1 \\
+1 & 1 & 0 & 1 & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 0 \\
+1 & 1 & 1 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 1 \\
+1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection*{Karnaugh Map for $T_3$}
+\begin{karnaugh-map}[4][4][1][$Q_1Q_0$][$Q_3Q_2$]
+\manualterms{0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1}
+\implicant{7}{15}
+\end{karnaugh-map}
+$T_3 = Q_2Q_1Q_0$
+\subsection*{Karnaugh Map for $T_2$}
+\begin{karnaugh-map}[4][4][1][$Q_1Q_0$][$Q_3Q_2$]
+\manualterms{0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1}
+\implicant{3}{11}
+\end{karnaugh-map}
+$T_2 = Q_1Q_0$
+\subsection*{Karnaugh Map for $T_1$}
+\begin{karnaugh-map}[4][4][1][$Q_1Q_0$][$Q_3Q_2$]
+\manualterms{0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1}
+\implicant{1}{11}
+\end{karnaugh-map}
+$T_1 = Q_0$
+
+\subsection*{Karnaugh Map for $T_0$}
+\begin{karnaugh-map}[4][4][1][$Q_1Q_0$][$Q_3Q_2$]
+\manualterms{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+\implicant{0}{10}
+\end{karnaugh-map}
+$T_0 = 1$
+\subsection*{Code}
+\begin{lstlisting}[style=style]
+module top_module(
+  input clk, 
+  input reset,
+  input enable,
+  output reg[3:0] count
+);
+    initial begin
+    count = 3'd0;
+    end
+    always @(posedge clk or posedge reset) begin
+        if (reset) 
+            count = 3'd0;
+        else if (enable) begin
+            count[0] <= ~count[0];
+            count[1] <= count[1] ^ count[0];
+            count[2] <= count[2] ^ (count[0] & count[1]);
+            count[3] <= count[3] ^ (count[0] & count[1] & count[2]);
+        end
+    end
+endmodule
+\end{lstlisting}
+\section{Even Parity Generator}
+\begin{itemize}
+    \item \textbf{Input:}
+    \begin{itemize}
+        \item \texttt{data[7:0]}: An 8-bit input vector representing the data for which parity is to be calculated.
+    \end{itemize}
+    \item \textbf{Output:}
+    \begin{itemize}
+        \item \texttt{parity}: A single-bit output representing the even parity bit.
+    \end{itemize}
+\end{itemize}
+\subsection*{Approach}
+The even parity bit is calculated by first performing a bitwise XOR operation across all the bits of the input \texttt{data}. This ensures that parity is 0 when number of 1's is even in the number.\newline
+
+\[
+\texttt{parity = (\^{} data)}
+\]
+generates the even parity bit for the 8-bit input $\texttt{data}$.
+\subsection*{Code}
+\begin{lstlisting}[style=style]
+module top_module(
+  input [7:0] data,
+  output parity
+);
+  assign parity = (^data);
+endmodule
+\end{lstlisting}
+\end{document}
+

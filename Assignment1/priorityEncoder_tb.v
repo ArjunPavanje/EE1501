@@ -1,0 +1,40 @@
+module priority_encoder_tb;
+
+  reg [3:0] in;
+  wire [1:0] out;
+  wire valid;
+
+  // Instantiate the DUT (Device Under Test)
+  priorityEncoder dut (
+    .in(in),
+    .out(out),
+    .valid(valid)
+  );
+
+  initial begin
+    $dumpfile("wave.vcd");
+    $dumpvars(0, priority_encoder_tb);
+
+    // Test all single-bit inputs
+    in = 4'b0000; #10;
+    in = 4'b0001; #10;
+    in = 4'b0010; #10;
+    in = 4'b0100; #10;
+    in = 4'b1000; #10;
+
+    // Test multiple active inputs (should pick highest)
+    in = 4'b1010; #10;
+    in = 4'b0111; #10;
+    in = 4'b1110; #10;
+    in = 4'b1111; #10;
+
+    $finish;
+  end
+
+  initial begin
+    $display("Time\tin\tout\tvalid");
+    $monitor("%0t\t%b\t%02b\t%b", $time, in, out, valid);
+  end
+
+endmodule
+
