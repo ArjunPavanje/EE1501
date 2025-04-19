@@ -1,0 +1,55 @@
+$date
+	Fri Apr 18 13:19:28 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module tb_conv $end
+$scope module dut $end
+$var integer 32 ! j [31:0] $end
+$var integer 32 " k [31:0] $end
+$var integer 32 # n [31:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+b1111 #
+b1000 "
+b1000 !
+$end
+#10000
+b1000 "
+b1000 !
+b1111 #
+#20000
+b1000 "
+b1000 !
+b1111 #
+#30000
+b1000 "
+b1000 !
+b1111 #
+#40000
+b1000 "
+b1000 !
+b1111 #
+#50000
+b1000 "
+b1000 !
+b1111 #
+#60000
+b1000 "
+b1000 !
+b1111 #
+#70000
+b1000 "
+b1000 !
+b1111 #
+#80000
