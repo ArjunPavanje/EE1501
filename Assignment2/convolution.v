@@ -19,7 +19,8 @@ always @(*) begin
   end
 end
 endmodule
-`timescale 1ns / 1ps
+
+`timescale 1ns / 1ns
 
 module tb_conv;
     reg [3:0] x[7:0];
@@ -31,7 +32,18 @@ module tb_conv;
     initial begin
         $dumpfile("conv.vcd");
         $dumpvars(0, tb_conv);
-        $monitor("> TestCase\nx = [%d %d %d %d %d %d %d %d]\nh = [%d %d %d %d %d %d %d %d]\nx*h = [%d %d %d %d %d %d %d %d]\n", x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], h[0], h[1], h[2], h[3], h[4], h[5], h[6], h[7], y[0], y[1], y[2], y[3], y[4], y[5], y[6], y[7]);
+
+        for (integer i = 0; i < 8; i++) begin
+            $dumpvars(0, tb_conv.x[i]);
+            $dumpvars(0, tb_conv.h[i]);
+        end
+
+        for (integer i = 0; i < 15; i++) begin
+            $dumpvars(0, tb_conv.y[i]);
+        end
+
+        $monitor("x = [%d, %d, %d, %d, %d, %d, %d, %d]\nh = [%d, %d, %d, %d, %d, %d, %d, %d]\nx*h = [%d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d]\n", x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7], h[0], h[1], h[2], h[3], h[4], h[5], h[6], h[7], y[0], y[1], y[2], y[3], y[4], y[5], y[6], y[7], y[8], y[9], y[10], y[11], y[12], y[13], y[14]);
+
         x[0] = 4'd1; x[1] = 4'd2; x[2] = 4'd3; x[3] = 4'd4;
         x[4] = 4'd0; x[5] = 4'd1; x[6] = 4'd0; x[7] = 4'd1;
         h[0] = 4'd1; h[1] = 4'd0; h[2] = 4'd1; h[3] = 4'd0;

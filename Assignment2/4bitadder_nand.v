@@ -1,3 +1,4 @@
+`timescale 1ns/1ns
 module nand_gate(
   input a,
   input b,
@@ -12,8 +13,8 @@ module and_nand(
   output out
 );
   wire temp;
-  nand_gate and1 (.a(a), .b(b), .out(temp));
-  nand_gate and2 (.a(temp), .b(temp), .out(out));
+  nand_gate and1 #1(.a(a), .b(b), .out(temp)); 
+  nand_gate and2 #1(.a(temp), .b(temp), .out(out)); 
 endmodule
 
 module or_nand(
@@ -22,9 +23,9 @@ module or_nand(
   output out
 );
   wire temp1, temp2;
-  nand_gate or1 (.a(a), .b(a), .out(temp1));
-  nand_gate or2 (.a(b), .b(b), .out(temp2));
-  nand_gate or3 (.a(temp1), .b(temp2), .out(out));
+  nand_gate or1 #1(.a(a), .b(a), .out(temp1));
+  nand_gate or2 #1(.a(b), .b(b), .out(temp2));
+  nand_gate or3 #1(.a(temp1), .b(temp2), .out(out));
 endmodule
 
 module xor_nand(
@@ -33,12 +34,11 @@ module xor_nand(
   output out
 );
   wire temp1, temp2, temp3;
-  nand_gate xor1 (.a(a), .b(b), .out(temp1));
-  nand_gate xor2 (.a(a), .b(temp1), .out(temp2));
-  nand_gate xor3 (.a(temp1), .b(b), .out(temp3));
-  nand_gate xor4 (.a(temp2), .b(temp3), .out(out));
+  nand_gate xor1 #1(.a(a), .b(b), .out(temp1));
+  nand_gate xor2 #1(.a(a), .b(temp1), .out(temp2));
+  nand_gate xor3 #1(.a(temp1), .b(b), .out(temp3));
+  nand_gate xor4 #1(.a(temp2), .b(temp3), .out(out));
 endmodule
-
 
 module bitadder(
   input [3:0] a,
