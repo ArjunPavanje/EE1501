@@ -32,31 +32,28 @@ bitadder uut(
   .carry_out(carry_out)
 );
 initial begin
+  $dumpfile("8bitadder.vcd");
+  $dumpvars(0, tb_adder);
+
   $display("Test Cases");
   // Test Case 1
   a = 8'b01101101; b = 8'b10110010; carry_in = 0;
-  #1
-  $display("1. %b  %b (%b)  %b (%b)",  a, b, carry_in, sum, carry_out);
-
+  $monitor("%0t. %b  %b (%b)  %b (%b)",  $time, a, b, carry_in, sum, carry_out);
+  #10
   // Test Case 2
   a = 8'b11010110; b = 8'b01010101; carry_in = 0;
-  #1
-  $display("2. %b  %b (%b)  %b (%b)",  a, b, carry_in, sum, carry_out);
+  #10
 
   // Test Case 3
   a = 8'b11111111; b = 8'b00000001; carry_in = 0;
-  #1
-  $display("3. %b  %b (%b)  %b (%b)",  a, b, carry_in, sum, carry_out);
+  #10
 
   // Test Case 4
   a = 8'b10011001; b = 8'b01101100; carry_in = 1;
-  #1
-  $display("4. %b  %b (%b)  %b (%b)",  a, b, carry_in, sum, carry_out);
+  #10
 
   // Test Case 5
   a = 8'b01010101; b = 8'b11101010; carry_in = 1;
-  #1
-  $display("5. %b  %b (%b)  %b (%b)",  a, b, carry_in, sum, carry_out);
 
 end
 endmodule
