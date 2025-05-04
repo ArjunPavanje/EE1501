@@ -76,6 +76,7 @@
           timer_buzzer <= 0;
        end
        if (alarm_buzzer) begin 
+         //$display("BOOM BOOM");
          alarm_buzzer <= 0;
        end
        if (reset) begin

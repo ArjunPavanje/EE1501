@@ -65,6 +65,7 @@ integer timer_done = 0;  // Add this at the top of your initial block
             #1; 
             if (alarm_buzzer) begin
               $display("ALARM RINGING! WAKE UP! Time: %02d:%02d:%02d", hour, min, sec);
+              alarm_enable = 0;
               ticks_after_event = 0;
             end 
             if (timer_buzzer) begin
@@ -109,24 +110,24 @@ integer timer_done = 0;  // Add this at the top of your initial block
     // Step 2: Monitor and display time
     repeat (300) begin
       #1; 
-      /*if (alarm_buzzer) begin
+      if (alarm_buzzer) begin
         $display("ALARM RINGING! Time: %02d:%02d:%02d", hour, min, sec);
-        $finish;
+        alarm_enable = 0;
         ticks_after_event = 0;
-      end*/ 
+      end
 
-      /*else if (timer_buzzer) begin
+      else if (timer_buzzer) begin
         $display("TIMER DONE! Time Left: 00:00");
+        timer_start = 0;
         timer_done = 1;
         ticks_after_event = 0;
-        $finish;
-      end*/
+      end
       /*else if (timer_buzzer) begin
       $display("TIMER DONE! Time Left: 00:00");
       timer_done = 1;
       ticks_after_event = 0;
       $finish;
-    end*/if (timer_count_min || timer_count_sec) begin
+    end*/else if (timer_count_min || timer_count_sec) begin
       $display("TIMER: %02d:%02d", timer_count_min, timer_count_sec);
       ticks_after_event = 0;
     end else begin
@@ -141,9 +142,9 @@ integer timer_done = 0;  // Add this at the top of your initial block
     hour, min, sec, day, month, year);
   ticks_after_event = ticks_after_event + 1;
 end
-//$display("Sanity Check: alarm buzzer: %d, timer buzzer: %d, timer: %d: %d, ticks after event: %d", alarm_buzzer, timer_buzzer, timer_count_min, timer_count_sec, ticks_after_event);
+//$display("Sanity Check: alarm buzzer: %d, timer buzzer: %d, timer: %d: %d, alarm enabled? %d, ticks after event: %d", alarm_buzzer, timer_buzzer, timer_count_min, timer_count_sec, alarm_enable, ticks_after_event);
 if (!alarm_buzzer && !timer_buzzer && timer_count_min == 0 && timer_count_sec == 0 &&
-  ticks_after_event > 5) begin
+  ticks_after_event > 5 && !alarm_enable) begin
   $display("Simulation complete.");
   $finish;
 end
