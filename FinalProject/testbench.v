@@ -115,7 +115,7 @@ integer timer_done = 0;  // Add this at the top of your initial block
         alarm_enable = 0;
         ticks_after_event = 0;
       end if (timer_buzzer) begin
-        $display("TIMER DONE XD! Time Left: 00:00");
+        $display("TIMER DONE XD! Time: %02d:%02d:%02d | Date: %02d-%02d-%04d", hour, min, sec, day, month, year);
         timer_start = 0;
         timer_done = 1;
         ticks_after_event = 0;
@@ -125,7 +125,7 @@ integer timer_done = 0;  // Add this at the top of your initial block
       timer_done = 1;
       ticks_after_event = 0;
       $finish;
-    end*/ if (timer_count_min || timer_count_sec) begin
+    end*/ else if (timer_count_min || timer_count_sec) begin
       $display("TIMER: %02d:%02d", timer_count_min, timer_count_sec);
       ticks_after_event = 0;
     end else begin
