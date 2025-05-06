@@ -111,13 +111,11 @@ integer timer_done = 0;  // Add this at the top of your initial block
     repeat (300) begin
       #1; 
       if (alarm_buzzer) begin
-        $display("ALARM RINGING! Time: %02d:%02d:%02d", hour, min, sec);
+        $display("ALARM RINGING XD! Time: %02d:%02d:%02d", hour, min, sec);
         alarm_enable = 0;
         ticks_after_event = 0;
-      end
-
-      else if (timer_buzzer) begin
-        $display("TIMER DONE! Time Left: 00:00");
+      end if (timer_buzzer) begin
+        $display("TIMER DONE XD! Time Left: 00:00");
         timer_start = 0;
         timer_done = 1;
         ticks_after_event = 0;
@@ -127,7 +125,7 @@ integer timer_done = 0;  // Add this at the top of your initial block
       timer_done = 1;
       ticks_after_event = 0;
       $finish;
-    end*/else if (timer_count_min || timer_count_sec) begin
+    end*/ if (timer_count_min || timer_count_sec) begin
       $display("TIMER: %02d:%02d", timer_count_min, timer_count_sec);
       ticks_after_event = 0;
     end else begin

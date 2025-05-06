@@ -4,11 +4,13 @@
   * Mode 2: See time (24hr) and Date
   * Mode 3: Set Time, Date Manually
   * Mode 4: Alarm
+  * Mode 5: Timer
   * Input Formats
   * Mode 3: 3 <HH> <MM> <SS> <DD>  <MM> <YY>
     * Mode 1: 1 
     * Mode 2: 2 
-    * Mode 4: 4 <time in minutes (int)> 
+    * Mode 4: 4 <HH> <MM> <SS> (in 24 hr format)
+    * Mode 5: 5 <MM> <SS> 
       */
 
      `timescale 1s/1ms
@@ -115,9 +117,13 @@
            end
          end
        end
-
-       // Alarm check
-       if (alarm_enable && !alarm_triggered &&
+        //$display("Sanity Check: Time: %02d %02d %02d, Alarm TIme: %02d %02d %02d", hour, min, sec, alarm_hour, alarm_min, alarm_sec);
+       // Alarm check 
+        if (alarm_enable && !alarm_triggered && alarm_hour == 0 && alarm_min == 0 && alarm_sec == 0 && 
+         hour == 23 && min == 59 && sec == 59) begin
+         alarm_buzzer <= 1;
+         alarm_triggered <= 1;
+       end else if (alarm_enable && !alarm_triggered &&
          hour == alarm_hour && min == alarm_min && sec + 1 == alarm_sec) begin
          alarm_buzzer <= 1;
          alarm_triggered <= 1;
@@ -132,7 +138,7 @@
        end
 
        if (timer_running) begin
-         if (timer_count_min == 0 && timer_count_sec == 1) begin
+         if (timer_count_min == 0 && timer_count_sec == 2) begin
            timer_buzzer <= 1;
            timer_running <= 0; 
            timer_count_sec = 0;
