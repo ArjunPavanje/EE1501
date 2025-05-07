@@ -1,0 +1,275 @@
+$date
+	Wed May  7 19:36:05 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ms
+$end
+$scope module tb_clock $end
+$var wire 12 ! year [11:0] $end
+$var wire 6 " timer_count_sec [5:0] $end
+$var wire 6 # timer_count_min [5:0] $end
+$var wire 1 $ timer_buzzer $end
+$var wire 6 % sec [5:0] $end
+$var wire 4 & month [3:0] $end
+$var wire 6 ' min [5:0] $end
+$var wire 5 ( hour [4:0] $end
+$var wire 3 ) day_of_week [2:0] $end
+$var wire 5 * day [4:0] $end
+$var wire 1 + alarm_buzzer $end
+$var wire 1 , AM_enabled $end
+$var reg 1 - alarm_enable $end
+$var reg 5 . alarm_hour [4:0] $end
+$var reg 6 / alarm_min [5:0] $end
+$var reg 6 0 alarm_sec [5:0] $end
+$var reg 1 1 clk $end
+$var reg 1 2 reset $end
+$var reg 5 3 set_day [4:0] $end
+$var reg 5 4 set_hour [4:0] $end
+$var reg 6 5 set_min [5:0] $end
+$var reg 4 6 set_month [3:0] $end
+$var reg 6 7 set_sec [5:0] $end
+$var reg 12 8 set_year [11:0] $end
+$var reg 1 9 timer_enable $end
+$var reg 6 : timer_min [5:0] $end
+$var reg 6 ; timer_sec [5:0] $end
+$var integer 32 < display_mode [31:0] $end
+$var integer 32 = file [31:0] $end
+$var integer 32 > mode [31:0] $end
+$var integer 32 ? res [31:0] $end
+$var integer 32 @ ticks_after_event [31:0] $end
+$upscope $end
+$scope module tb_clock $end
+$scope module uut $end
+$var wire 1 - alarm_enable $end
+$var wire 5 A alarm_hour [4:0] $end
+$var wire 6 B alarm_min [5:0] $end
+$var wire 6 C alarm_sec [5:0] $end
+$var wire 1 1 clk $end
+$var wire 1 2 reset $end
+$var wire 5 D set_day [4:0] $end
+$var wire 5 E set_hour [4:0] $end
+$var wire 6 F set_min [5:0] $end
+$var wire 4 G set_month [3:0] $end
+$var wire 6 H set_sec [5:0] $end
+$var wire 12 I set_year [11:0] $end
+$var wire 1 9 timer_enable $end
+$var wire 6 J timer_min [5:0] $end
+$var wire 6 K timer_sec [5:0] $end
+$var reg 1 , AM_enabled $end
+$var reg 1 + alarm_buzzer $end
+$var reg 1 L alarm_triggered $end
+$var reg 5 M day [4:0] $end
+$var reg 3 N day_of_week [2:0] $end
+$var reg 5 O hour [4:0] $end
+$var reg 6 P min [5:0] $end
+$var reg 4 Q month [3:0] $end
+$var reg 6 R sec [5:0] $end
+$var reg 1 $ timer_buzzer $end
+$var reg 6 S timer_count_min [5:0] $end
+$var reg 6 T timer_count_sec [5:0] $end
+$var reg 1 U timer_running $end
+$var reg 12 V year [11:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+b11111101000 V
+0U
+b0 T
+b0 S
+b111001 R
+b101 Q
+b111011 P
+b1000 O
+bx N
+b101 M
+0L
+b0 K
+b0 J
+b11111101000 I
+b111001 H
+b101 G
+b111011 F
+b1000 E
+b101 D
+b0 C
+b0 B
+b0 A
+b0 @
+b110 ?
+b11 >
+b10000000000000000000000000000011 =
+b10 <
+b0 ;
+b0 :
+09
+b11111101000 8
+b111001 7
+b101 6
+b111011 5
+b1000 4
+b101 3
+12
+01
+b0 0
+b0 /
+b0 .
+0-
+0,
+0+
+b101 *
+bx )
+b1000 (
+b111011 '
+b101 &
+b111001 %
+0$
+b0 #
+b0 "
+b11111101000 !
+$end
+#500
+1U
+b1010 "
+b1010 T
+b0 )
+b0 N
+b111010 %
+b111010 R
+1,
+1-
+b1010 0
+b1010 C
+19
+b1010 ;
+b1010 K
+b1 ?
+b1 >
+02
+11
+#1000
+01
+#1500
+b1001 "
+b1001 T
+b111011 %
+b111011 R
+11
+#2000
+01
+#2500
+b1000 "
+b1000 T
+b1001 (
+b1001 O
+b0 '
+b0 P
+b0 %
+b0 R
+11
+#3000
+01
+#3500
+b111 "
+b111 T
+b1 %
+b1 R
+11
+#4000
+01
+#4500
+b110 "
+b110 T
+b10 %
+b10 R
+11
+#5000
+01
+#5500
+b11111100100 !
+b11111100100 V
+b1 &
+b1 Q
+b1 *
+b1 M
+b0 %
+b0 R
+b0 (
+b0 O
+11
+12
+0-
+09
+b11111100100 8
+b11111100100 I
+b1 6
+b1 G
+b1 3
+b1 D
+b0 7
+b0 H
+b0 5
+b0 F
+b0 4
+b0 E
+b110 >
+#6000
+01
+b0 ?
+12
+#6500
+b11 )
+b11 N
+b1 %
+b1 R
+11
+02
+#7000
+01
+#7500
+b10 %
+b10 R
+11
+b1 @
+#8000
+01
+#8500
+b11 %
+b11 R
+11
+b10 @
+#9000
+01
+#9500
+b100 %
+b100 R
+11
+b11 @
+#10000
+01
+#10500
+b101 %
+b101 R
+11
+b100 @
+#11000
+01
+#11500
+b110 %
+b110 R
+11
+b101 @
+#12000
+01
+#12500
+b111 %
+b111 R
+11
+b110 @

@@ -110,11 +110,6 @@
            day <= set_day;
            month <= set_month;
            year <= set_year;
-
-           alarm_triggered <= 0;
-           alarm_buzzer <= 0;
-           timer_buzzer <= 0;
-           timer_running <= 0;
          end else begin
            // Updating clock
            // We change the value one cycle before it actually has to reflect
@@ -188,14 +183,15 @@
          end
 
          // Timer Check
-         if (timer_enable && !timer_running) begin
+         if (timer_enable) begin
            timer_count_min <= timer_min;
            timer_count_sec <= timer_sec;
            timer_running <= 1;
            timer_buzzer <= 0;
          end
          // Triggering Timer 
-         if (timer_running) begin
+         if (timer_enable) begin
+           //$display("LEFT TIME: %02d %02d", timer_count_min, timer_count_sec);
            if (timer_count_min == 0 && timer_count_sec == 2) begin
              timer_buzzer <= 1;
              timer_running <= 0; // Turning it OFF 

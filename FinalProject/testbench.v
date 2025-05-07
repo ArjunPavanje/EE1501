@@ -60,14 +60,15 @@ always #0.5 clk = ~clk;
 // (if clock period was kept as 1 second, changes would be read every two seconds instead of 1)
 
 // Reading data from text file for which Mode to follow
-initial begin 
+initial begin  
+  $dumpfile("waveform.vcd");
+  $dumpvars(1, tb_clock, uut);  // Dump all signals in testbench and UUT
   file = $fopen("input.txt", "r");
   if (!file) begin
     $display("Cannot open input.txt");
     $finish;
   end
-  $dumpfile("clock.vcd");
-  $dumpvars(1, tb_clock, uut);  // Dump all signals in testbench and UUT
+
   while (!$feof(file)) begin
     res = $fscanf(file, "%d", mode); 
     day_names[0] = "Sunday";
@@ -129,8 +130,6 @@ initial begin
       set_day = 1;
       set_month = 1;
       set_year = 2020;
-      timer_enable = 0;
-      alarm_enable = 0;
       reset = 1; #0.5; reset = 0;
       $display("RESET! Time: %02d:%02d:%02d | Date: %02d-%02d-%04d (%s)", hour, min, sec, day, month, year, day_names[day_of_week]);
     end else begin
