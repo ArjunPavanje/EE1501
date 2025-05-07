@@ -26,7 +26,7 @@ wire [5:0] min, sec;
 wire [4:0] day;
 wire [3:0] month;
 wire [11:0] year;
-
+wire [2:0] day_of_week;
 wire [5:0] timer_count_min, timer_count_sec;
 wire alarm_buzzer, timer_buzzer;
 
@@ -47,18 +47,27 @@ digital_clock uut (
   .timer_min(timer_min), .timer_sec(timer_sec),
   .timer_start(timer_start),
   .hour(hour), .min(min), .sec(sec),
-  .day(day), .month(month), .year(year),
+  .day(day), .month(month), .year(year), .day_of_week(day_of_week),
   .timer_count_min(timer_count_min), .timer_count_sec(timer_count_sec),
   .alarm_buzzer(alarm_buzzer), .timer_buzzer(timer_buzzer)
 );
 
+
+reg [8*10:1] day_names [0:6];
 always #0.5 clk = ~clk;  
 // Setting Clock cycle as 0.5 seconds as changes are only read at positive edge of clock 
 // (if clock period was kept as 1 second, changes would be read every two seconds instead of 1)
 
 //integer timer_done = 0; 
 // Reading data from text file for which Mode to follow
-initial begin
+initial begin 
+  day_names[0] = "Sunday";
+  day_names[1] = "Monday";
+  day_names[2] = "Tuesday";
+  day_names[3] = "Wednesday";
+  day_names[4] = "Thursday";
+  day_names[5] = "Friday";
+  day_names[6] = "Saturday";
   file = $fopen("input.txt", "r");
   if (!file) begin
     $display("Cannot open input.txt");
@@ -88,14 +97,14 @@ initial begin
           //timer_done = 1;
           ticks_after_event = 0;
         end if (mode == 1) begin // 12 hour time format
-          $display("Time: %02d:%02d:%02d %s | Date: %02d-%02d-%04d",
+          $display("Time: %02d:%02d:%02d %s | Date: %02d-%02d-%04d (%s)",
             (hour == 0) ? 12 : (hour > 12 ? hour - 12 : hour),
             min, sec,
             (hour >= 12) ? "PM" : "AM", // AM or PM
-            day, month, year);
+            day, month, year, day_names[day_of_week]);
         end else begin // 24 hour time format
-          $display("Time: %02d:%02d:%02d | Date: %02d-%02d-%04d",
-            hour, min, sec, day, month, year);
+          $display("Time: %02d:%02d:%02d | Date: %02d-%02d-%04d (%s)",
+            hour, min, sec, day, month, year, day_names[day_of_week]);
         end
       end
     end else if (mode == 3) begin // Setting time and Date Manually
@@ -146,8 +155,8 @@ repeat (300) begin
     (hour >= 12) ? "PM" : "AM",
     day, month, year);
   else
-    $display("Time: %02d:%02d:%02d | Date: %02d-%02d-%04d",
-  hour, min, sec, day, month, year);
+    $display("Time: %02d:%02d:%02d | Date: %02d-%02d-%04d (%s)",
+  hour, min, sec, day, month, year, day_names[day_of_week]);
 ticks_after_event = ticks_after_event + 1;
 end
 //$display("Sanity Check: alarm buzzer: %d, timer buzzer: %d, timer: %d: %d, alarm enabled? %d, ticks after event: %d", alarm_buzzer, timer_buzzer, timer_count_min, timer_count_sec, alarm_enable, ticks_after_event);
