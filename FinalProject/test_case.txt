@@ -3,59 +3,68 @@ Input:
 3 23 59 58 28 02 2024
 1
 3 23 59 58 28 02 2025
-2 
-4 00 00 20 
-5 00 10 
+2
+3 23 59 58 30 04 2025 
+1
+3 23 59 58 28 02 2025
+4 00 00 10 
+5 00 10
+1
+2
+6
 
 Output:
 
+
 Setting time to 23:59:58 and date to 28-02-2024
 Time: 11:59:59 PM | Date: 28-02-2024 ( Wednesday)
-Time: 12:00:00 AM | Date: 29-02-2024 (  Thursday) // Leap Year
+Time: 12:00:00 AM | Date: 29-02-2024 (  Thursday) // Leap year
 Time: 12:00:01 AM | Date: 29-02-2024 (  Thursday)
 Time: 12:00:02 AM | Date: 29-02-2024 (  Thursday)
 Time: 12:00:03 AM | Date: 29-02-2024 (  Thursday)
 Setting time to 23:59:58 and date to 28-02-2025
 Time: 23:59:59 | Date: 28-02-2025 (    Friday)
-Time: 00:00:00 | Date: 01-03-2025 (  Saturday) // Not a leap Year
+Time: 00:00:00 | Date: 01-03-2025 (  Saturday) // Non Leap year
 Time: 00:00:01 | Date: 01-03-2025 (  Saturday)
 Time: 00:00:02 | Date: 01-03-2025 (  Saturday)
 Time: 00:00:03 | Date: 01-03-2025 (  Saturday)
 Setting time to 23:59:58 and date to 30-04-2025
 Time: 11:59:59 PM | Date: 30-04-2025 ( Wednesday)
-Time: 12:00:00 AM | Date: 01-01-2020 ( Wednesday) // Looping back around to 1 january 2020
+Time: 12:00:00 AM | Date: 01-01-2020 ( Wednesday)
 Time: 12:00:01 AM | Date: 01-01-2020 ( Wednesday)
 Time: 12:00:02 AM | Date: 01-01-2020 ( Wednesday)
 Time: 12:00:03 AM | Date: 01-01-2020 ( Wednesday)
 Setting time to 23:59:58 and date to 28-02-2025
-Alarm set for 00:00:20
-Current time: 23 : 59 : 58, Timer set for 00 minutes 10 seconds
-Time: 23:59:59 | Date: 28-02-2025 (    Friday)
-Time: 00:00:00 | Date: 01-03-2025 (    Friday)
-Time: 00:00:01 | Date: 01-03-2025 (  Saturday)
-Time: 00:00:02 | Date: 01-03-2025 (  Saturday)
-Time: 00:00:03 | Date: 01-03-2025 (  Saturday)
+Alarm set for 00:00:10 // Setting Alarm
+Current time: 23 : 59 : 58, Timer set for 00 minutes 10 seconds // Setting timer 
+Time: 11:59:59 PM | Date: 28-02-2025 (    Friday)
+Time: 12:00:00 AM | Date: 01-03-2025 (  Saturday)
+Time: 12:00:01 AM | Date: 01-03-2025 (  Saturday)
+Time: 12:00:02 AM | Date: 01-03-2025 (  Saturday)
+Time: 12:00:03 AM | Date: 01-03-2025 (  Saturday)
 Time: 00:00:04 | Date: 01-03-2025 (  Saturday)
 Time: 00:00:05 | Date: 01-03-2025 (  Saturday)
 Time: 00:00:06 | Date: 01-03-2025 (  Saturday)
 Time: 00:00:07 | Date: 01-03-2025 (  Saturday)
-TIMER DONE! Time: 00:00:08 | Date: 01-03-2025 // Timer ringing
-Time: 00:00:09 | Date: 01-03-2025 (  Saturday)
-Time: 00:00:10 | Date: 01-03-2025 (  Saturday)
-Time: 00:00:11 | Date: 01-03-2025 (  Saturday)
-Time: 00:00:12 | Date: 01-03-2025 (  Saturday)
-Time: 00:00:13 | Date: 01-03-2025 (  Saturday)
-Time: 00:00:14 | Date: 01-03-2025 (  Saturday)
-Time: 00:00:15 | Date: 01-03-2025 (  Saturday)
-Time: 00:00:16 | Date: 01-03-2025 (  Saturday)
-Time: 00:00:17 | Date: 01-03-2025 (  Saturday)
-Time: 00:00:18 | Date: 01-03-2025 (  Saturday)
-Time: 00:00:19 | Date: 01-03-2025 (  Saturday)
-ALARM RINGING! Time: 00:00:20 | Date: 01-03-2025 // Alarm ringing
-Time: 00:00:21 | Date: 01-03-2025 (  Saturday)
-Time: 00:00:22 | Date: 01-03-2025 (  Saturday)
-Time: 00:00:23 | Date: 01-03-2025 (  Saturday)
-Time: 00:00:24 | Date: 01-03-2025 (  Saturday)
-Time: 00:00:25 | Date: 01-03-2025 (  Saturday)
-Time: 00:00:26 | Date: 01-03-2025 (  Saturday)
+TIMER DONE! // Timer rings
+Time: 00:00:08 | Date: 01-03-2025 (  Saturday)
+RESET! Time: 00:00:00 | Date: 01-01-2020 (  Saturday) // Manual Reset to initial conditions
+RESET! Time: 00:00:00 | Date: 01-01-2020 (  Saturday)
+Time: 00:00:01 | Date: 01-01-2020 ( Wednesday)
+Time: 00:00:02 | Date: 01-01-2020 ( Wednesday)
+Time: 00:00:03 | Date: 01-01-2020 ( Wednesday)
+Time: 00:00:04 | Date: 01-01-2020 ( Wednesday)
+Time: 00:00:05 | Date: 01-01-2020 ( Wednesday)
+Time: 00:00:06 | Date: 01-01-2020 ( Wednesday)
+Time: 00:00:07 | Date: 01-01-2020 ( Wednesday)
+Time: 00:00:08 | Date: 01-01-2020 ( Wednesday)
+Time: 00:00:09 | Date: 01-01-2020 ( Wednesday)
+ALARM RINGING! Time: 00:00:10 | Date: 01-01-2020 // Alarm rings appropriately even after time is reset
+Time: 00:00:11 | Date: 01-01-2020 ( Wednesday)
+Time: 00:00:12 | Date: 01-01-2020 ( Wednesday)
+Time: 00:00:13 | Date: 01-01-2020 ( Wednesday)
+Time: 00:00:14 | Date: 01-01-2020 ( Wednesday)
+Time: 00:00:15 | Date: 01-01-2020 ( Wednesday)
+Time: 00:00:16 | Date: 01-01-2020 ( Wednesday)
 Simulation complete.
+

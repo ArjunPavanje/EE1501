@@ -61,7 +61,7 @@ always #0.5 clk = ~clk;
 
 // Reading data from text file for which Mode to follow
 initial begin 
-    file = $fopen("input.txt", "r");
+  file = $fopen("input.txt", "r");
   if (!file) begin
     $display("Cannot open input.txt");
     $finish;
@@ -120,63 +120,62 @@ initial begin
       timer_enable = 1; // Turning the timer ON
       $display("Current time: %02d : %02d : %02d, Timer set for %02d minutes %02d seconds", hour, min, sec, timer_min, timer_sec);
     end else if(mode == 5 && timer_enable) begin
+      
     end else if (mode == 6) begin 
-        set_hour = 0;
-    set_min = 0;
-    set_sec = 0;
-    set_day = 1;
-    set_month = 1;
-    set_year = 2020;
-    reset = 1; #0.5; reset = 0;
-    $display("RESET! Time: %02d:%02d:%02d | Date: %02d-%02d-%04d (%s)",
-            hour, min, sec, day, month, year, day_names[day_of_week]);
-
-  end else begin
-    $display("Unknown mode: %d", mode);
+      set_hour = 0;
+      set_min = 0;
+      set_sec = 0;
+      set_day = 1;
+      set_month = 1;
+      set_year = 2020;
+      reset = 1; #0.5; reset = 0;
+      $display("RESET! Time: %02d:%02d:%02d | Date: %02d-%02d-%04d (%s)", hour, min, sec, day, month, year, day_names[day_of_week]);
+    end else begin
+      $display("Unknown mode: %d", mode);
+    end
+    //#1;
   end
-  //#1;
-end
-$fclose(file);
+  $fclose(file);
 
-repeat (300) begin
-  #1; 
-  if (alarm_buzzer) begin // Ringing alarm (when it occurs outside Mode 1 or 2)
-    $display("ALARM RINGING! Time: %02d:%02d:%02d | Date: %02d-%02d-%04d", hour, min, sec, day, month, year);
-    alarm_enable = 0; // Turning the alarm OFF
-    ticks_after_event = 0;
-  end if (timer_buzzer) begin  // Ringing timer (when it occurs outside Mode 1 or 2)
-    $display("TIMER DONE! Time: %02d:%02d:%02d | Date: %02d-%02d-%04d", hour, min, sec, day, month, year);
-    timer_enable = 0; // Turning the timer OFF
-    ticks_after_event = 0;
-  end /*else if (timer_count_min || timer_count_sec) begin
+  repeat (300) begin
+    #1; 
+    if (alarm_buzzer) begin // Ringing alarm (when it occurs outside Mode 1 or 2)
+      $display("ALARM RINGING! Time: %02d:%02d:%02d | Date: %02d-%02d-%04d", hour, min, sec, day, month, year);
+      alarm_enable = 0; // Turning the alarm OFF
+      ticks_after_event = 0;
+    end if (timer_buzzer) begin  // Ringing timer (when it occurs outside Mode 1 or 2)
+      $display("TIMER DONE! Time: %02d:%02d:%02d | Date: %02d-%02d-%04d", hour, min, sec, day, month, year);
+      timer_enable = 0; // Turning the timer OFF
+      ticks_after_event = 0;
+    end /*else if (timer_count_min || timer_count_sec) begin
     $display("TIMER: %02d:%02d", timer_count_min, timer_count_sec);
     ticks_after_event = 0;
   end*/ 
-  if(alarm_buzzer == 0 && timer_buzzer == 0) begin // Displaying time in either 24 hour or 12 hour format
-    if (display_mode == 1)
-      $display("Time: %02d:%02d:%02d %s | Date: %02d-%02d-%04d",
-    (hour == 0) ? 12 : (hour > 12 ? hour - 12 : hour),
-    min, sec,
-    (AM_enabled) ? "AM" : "PM",
-    day, month, year);
-    else
-      $display("Time: %02d:%02d:%02d | Date: %02d-%02d-%04d (%s)",
-    hour, min, sec, day, month, year, day_names[day_of_week]);
+ if(alarm_buzzer == 0 && timer_buzzer == 0) begin // Displaying time in either 24 hour or 12 hour format
+   if (display_mode == 1)
+     $display("Time: %02d:%02d:%02d %s | Date: %02d-%02d-%04d",
+   (hour == 0) ? 12 : (hour > 12 ? hour - 12 : hour),
+   min, sec,
+   (AM_enabled) ? "AM" : "PM",
+   day, month, year);
+ else
+   $display("Time: %02d:%02d:%02d | Date: %02d-%02d-%04d (%s)",
+ hour, min, sec, day, month, year, day_names[day_of_week]);
     ticks_after_event = ticks_after_event + 1;
   end
-//$display("Sanity Check: alarm buzzer: %d, timer buzzer: %d, timer: %d: %d, alarm enabled? %d, ticks after event: %d", alarm_buzzer, timer_buzzer, timer_count_min, timer_count_sec, alarm_enable, ticks_after_event);
-// The below line is to ensure that as long as timer/alarm is active program
-// continues to show time even though Mode 1 or Mode 2 is not specified
-// suffeciently for timer/alarm to run down and ring.
-if (!alarm_buzzer && !timer_buzzer && !timer_enable &&
-  ticks_after_event > 5 && !alarm_enable) begin
-  $display("Simulation complete.");
-  $finish;
+  //$display("Sanity Check: alarm buzzer: %d, timer buzzer: %d, timer: %d: %d, alarm enabled? %d, ticks after event: %d", alarm_buzzer, timer_buzzer, timer_count_min, timer_count_sec, alarm_enable, ticks_after_event);
+  // The below line is to ensure that as long as timer/alarm is active program
+  // continues to show time even though Mode 1 or Mode 2 is not specified
+  // suffeciently for timer/alarm to run down and ring.
+  if (!alarm_buzzer && !timer_buzzer && !timer_enable &&
+    ticks_after_event > 5 && !alarm_enable) begin
+    $display("Simulation complete.");
+    $finish;
+  end
 end
-        end
 
-        $display("Simulation timeout.");
-        $finish;
+$display("Simulation timeout.");
+$finish;
       end
       endmodule
 
