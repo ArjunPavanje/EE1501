@@ -3,10 +3,10 @@
   * Mode 1: See time (12 Hr) and Date
   * Mode 2: See time (24hr) and Date
   * Mode 3: Set Time, Date Manually
-  * Mode 4: Alarm
-  * Mode 5: Timer
-  * Input Formats
-  * Mode 3: 3 <HH> <MM> <SS> <DD>  <MM> <YY>
+  * Mode 4: Set Alarm
+  * Mode 5: Set Timer
+  * Input Formats:
+    * Mode 3: 3 <HH> <MM> <SS> <DD>  <MM> <YY>
     * Mode 1: 1 
     * Mode 2: 2 
     * Mode 4: 4 <HH> <MM> <SS> (in 24 hr format)
@@ -50,6 +50,7 @@
      reg timer_running = 0;
      reg alarm_triggered = 0;
 
+     // Setting inital values for some parameters
      initial begin
        hour = 0; min = 0; sec = 0;
        day = 1; month = 1; year = 2020;
@@ -59,29 +60,29 @@
        timer_count_min = 0;
      end
      
+     
      function [5:0] days_in_month;
        input [3:0] m;
        input [11:0] y;
        begin
-         case (m)
-           1,3,5,7,8,10,12: days_in_month = 31;
+         case (m) // case statement for number of days in each month
+           1,3,5,7,8,10,12: days_in_month = 31; 
            4,6,9,11: days_in_month = 30;
-           2: days_in_month = ((y % 4 == 0 && y % 100 != 0) || (y % 400 == 0)) ? 29 : 28;
+           2: days_in_month = ((y % 4 == 0 && y % 100 != 0) || (y % 400 == 0)) ? 29 : 28; // Leap Years
            default: days_in_month = 30;
          endcase
        end
      endfunction
 
      always @(posedge clk or posedge reset) begin 
+       // Ensuring that alarm and timer only ring ONCE
        if (timer_buzzer) begin
-          //$display("BOOM BOOM");
-          timer_buzzer <= 0;
+          timer_buzzer <= 0; // Turning the buzzer OFF
        end
        if (alarm_buzzer) begin 
-         //$display("BOOM BOOM");
-         alarm_buzzer <= 0;
+         alarm_buzzer <= 0; // Turning the buzzer OFF
        end
-       if (reset) begin
+       if (reset) begin // Manual Reset (Mode 3)
          hour <= set_hour;
          min <= set_min;
          sec <= set_sec;
@@ -94,7 +95,10 @@
          timer_buzzer <= 0;
          timer_running <= 0;
        end else begin
-         // Update clock
+         // Updating clock
+         // We change the value one cycle before it actually has to reflect
+         // due to non blocking statements used which are read at the next
+         // positive edge of the clock
          sec <= sec + 1;
          if (sec == 59) begin
            sec <= 0;
@@ -118,7 +122,7 @@
          end
        end
         //$display("Sanity Check: Time: %02d %02d %02d, Alarm TIme: %02d %02d %02d", hour, min, sec, alarm_hour, alarm_min, alarm_sec);
-       // Alarm check 
+       // Triggering Alarm
         if (alarm_enable && !alarm_triggered && alarm_hour == 0 && alarm_min == 0 && alarm_sec == 0 && 
          hour == 23 && min == 59 && sec == 59) begin
          alarm_buzzer <= 1;
@@ -129,20 +133,20 @@
          alarm_triggered <= 1;
        end
 
-       // Timer
+       // Timer Check
        if (timer_start && !timer_running) begin
          timer_count_min <= timer_min;
          timer_count_sec <= timer_sec;
          timer_running <= 1;
          timer_buzzer <= 0;
        end
-
+       // Triggering Timer 
        if (timer_running) begin
          if (timer_count_min == 0 && timer_count_sec == 2) begin
            timer_buzzer <= 1;
-           timer_running <= 0; 
-           timer_count_sec = 0;
-         end else begin
+           timer_running <= 0; // Turning it OFF 
+           timer_count_sec = 0; // Manually resetting timer to 00 00 again
+         end else begin // Decrementing (minutes/seconds) otherwise
            if (timer_count_sec == 0) begin
              if (timer_count_min > 0) begin
                timer_count_min <= timer_count_min - 1;
@@ -153,23 +157,6 @@
            end
          end
        end
-       /*if (timer_running) begin 
-       $display("Time left: %02d minutes %02d secomds,", timer_count_min, timer_count_sec);
-       $display("Buzzer Status: %d", timer_buzzer);
-       if (timer_count_min == 0 && timer_count_sec == 0) begin
-         timer_buzzer <= 1;
-         timer_running <= 0;
-       end else begin
-         if (timer_count_sec == 0) begin
-           if (timer_count_min > 0) begin
-             timer_count_min <= timer_count_min - 1;
-             timer_count_sec <= 59;
-           end
-         end else begin
-           timer_count_sec <= timer_count_sec - 1;
-         end
-       end
-     end*/
   end
 end
 
