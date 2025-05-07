@@ -11,6 +11,7 @@ Input:
 5 00 10
 1
 2
+5 00 05
 6
 
 Output:
@@ -48,8 +49,29 @@ Time: 00:00:06 | Date: 01-03-2025 (  Saturday)
 Time: 00:00:07 | Date: 01-03-2025 (  Saturday)
 TIMER DONE! // Timer rings
 Time: 00:00:08 | Date: 01-03-2025 (  Saturday)
+Current time: 00 : 00 : 08, Timer set for 00 minutes 05 seconds // Setting new timer
 RESET! Time: 00:00:00 | Date: 01-01-2020 (  Saturday) // Manual Reset to initial conditions
 RESET! Time: 00:00:00 | Date: 01-01-2020 (  Saturday)
+Time: 00:00:01 | Date: 01-01-2020 ( Wednesday)
+Time: 00:00:02 | Date: 01-01-2020 ( Wednesday)
+Time: 00:00:03 | Date: 01-01-2020 ( Wednesday)
+Time: 00:00:04 | Date: 01-01-2020 ( Wednesday)
+TIMER DONE! Time: 00:00:05 | Date: 01-01-2020 // We see that timer counts 5 seconds relatively (even after time has been changed i.e. it doesn't ring at 00:00:13)
+Time: 00:00:06 | Date: 01-01-2020 ( Wednesday)
+Time: 00:00:07 | Date: 01-01-2020 ( Wednesday)
+Time: 00:00:08 | Date: 01-01-2020 ( Wednesday)
+Time: 00:00:09 | Date: 01-01-2020 ( Wednesday)
+ALARM RINGING! Time: 00:00:10 | Date: 01-01-2020 // Alarm rings appropriately
+Time: 00:00:11 | Date: 01-01-2020 ( Wednesday)
+Time: 00:00:12 | Date: 01-01-2020 ( Wednesday)
+Time: 00:00:13 | Date: 01-01-2020 ( Wednesday)
+Time: 00:00:14 | Date: 01-01-2020 ( Wednesday)
+Time: 00:00:15 | Date: 01-01-2020 ( Wednesday)
+Time: 00:00:16 | Date: 01-01-2020 ( Wednesday)
+Simulation complete.
+testbench.v:173: $finish called at 44
+
+
 Time: 00:00:01 | Date: 01-01-2020 ( Wednesday)
 Time: 00:00:02 | Date: 01-01-2020 ( Wednesday)
 Time: 00:00:03 | Date: 01-01-2020 ( Wednesday)
