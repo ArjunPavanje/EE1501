@@ -56,6 +56,8 @@ digital_clock uut (
 
 reg [8*10:1] day_names [0:6];
 always #0.5 clk = ~clk;  
+integer h_waste, m_waste, s_waste;
+
 // Setting Clock cycle as 0.5 seconds as changes are only read at positive edge of clock 
 // (if clock period was kept as 1 second, changes would be read every two seconds instead of 1)
 
@@ -112,16 +114,22 @@ initial begin
       $display("Setting time to %02d:%02d:%02d and date to %02d-%02d-%04d",
         set_hour, set_min, set_sec, set_day, set_month, set_year);
       reset = 1; #0.5; reset = 0;
-    end else if (mode == 4) begin // Setting alarm
+    end else if (mode == 4 && !alarm_enable) begin // Setting alarm
+      // second condition is to ensure only one alarm is set at once
       res = $fscanf(file, "%d %d %d", alarm_hour, alarm_min, alarm_sec);
       alarm_enable = 1; // Turning the alarm ON
       $display("Alarm set for %02d:%02d:%02d", alarm_hour, alarm_min, alarm_sec);
-    end else if (mode == 5 && !timer_enable) begin // Setting timer
-      res = $fscanf(file, "%d %d", timer_min, timer_sec);
-      timer_enable = 1; // Turning the timer ON
+    end else if(mode == 4 && alarm_enable) begin 
+      $display("One Alarm has already been set for %d:%d:%d", alarm_hour, alarm_min, alarm_sec);
+      res = $fscanf(file, "%d %d %d", h_waste, m_waste, s_waste); // dummy variables so next line can be read
+    end else if (mode == 5 && !timer_enable) begin // Setting timer 
+      // second condition is to ensure only one timer is set at once
+      res = $fscanf(file, "%d %d", timer_min, timer_sec); 
+      timer_enable = 1; // Turning the timer ON  
       $display("Current time: %02d : %02d : %02d, Timer set for %02d minutes %02d seconds", hour, min, sec, timer_min, timer_sec);
     end else if(mode == 5 && timer_enable) begin
-      
+      $display("One timer has already been set for %02d minutes %02d seconds", timer_min, timer_sec);
+      res = $fscanf(file, "%d %d", m_waste, s_waste); // dummy variables so next line can be read
     end else if (mode == 6) begin 
       set_hour = 0;
       set_min = 0;
@@ -154,6 +162,8 @@ initial begin
     $display("TIMER: %02d:%02d", timer_count_min, timer_count_sec);
     ticks_after_event = 0;
   end*/ 
+ // Displaying time normally only when neither timer nor alarm buzzers are
+ // active
  if(alarm_buzzer == 0 && timer_buzzer == 0) begin // Displaying time in either 24 hour or 12 hour format
    if (display_mode == 1)
      $display("Time: %02d:%02d:%02d %s | Date: %02d-%02d-%04d",

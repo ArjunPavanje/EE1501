@@ -55,8 +55,8 @@
        output reg timer_buzzer
        );
 
-       reg timer_running = 0;
-       reg alarm_triggered = 0;
+       //reg timer_running = 0;
+       //reg alarm_triggered = 0;
 
        // Setting inital values for some parameters
        initial begin
@@ -117,6 +117,7 @@
            // positive edge of the clock
            sec <= sec + 1;
            // AM_enabled <= (hour < 12); 
+           // Setting signal which indicates 'AM' or 'PM'
            if(hour == 23 && min == 59 && sec == 59) AM_enabled = 1; 
            else AM_enabled = (hour < 12);
 
@@ -128,7 +129,7 @@
              hour <= 0; 
              min <= 0;
              sec <= 0;
-           end else if (sec == 59) begin
+           end else if (sec == 59) begin // Normal incrementing Date and Time otherwise
              sec <= 0;
              min <= min + 1;
              if (min == 59) begin
@@ -149,16 +150,25 @@
              end
            end
          end
-         // Updating Day
+         // Updating Day 
+         // Setting day seperately for last second of day (non blocking
+         // assignment)
          if (hour == 23 && min == 59 && sec == 59 && day != 30 && month != 4 && year != 2025) begin 
            day_of_week <= calc_day_of_week(day+1, month, year);
-         end else if ( hour == 23 && min == 59 && sec == 59 && day == 30 && month == 4 && year == 2025) begin 
+         end 
+         // Setting day for wrap-around from April 2025 to January 2020
+         else if ( hour == 23 && min == 59 && sec == 59 && day == 30 && month == 4 && year == 2025) begin 
            day_of_week <= calc_day_of_week(1, 1, 2020);
-           end else if ( hour == 23 && min == 59 && sec == 59 && day == 28 && month == 2 && days_in_month(month, year) == 29) begin 
+           end 
+         // Setting day for leap year
+         else if ( hour == 23 && min == 59 && sec == 59 && day == 28 && month == 2 && days_in_month(month, year) == 29) begin 
            day_of_week <= calc_day_of_week(29, 2, year);
-           end else if ( hour == 23 && min == 59 && sec == 59 && day == 28 && month == 2 && days_in_month(month, year) == 28) begin 
+           end 
+          // Setting day for non leap year
+          else if ( hour == 23 && min == 59 && sec == 59 && day == 28 && month == 2 && days_in_month(month, year) == 28) begin 
            day_of_week <= calc_day_of_week(1, 3, year);
            end
+           // Normal case
            else begin  
            day_of_week <= calc_day_of_week(day, month, year);
          end
@@ -172,21 +182,21 @@
 
          //$display("Sanity Check: Time: %02d %02d %02d, Alarm TIme: %02d %02d %02d", hour, min, sec, alarm_hour, alarm_min, alarm_sec);
          // Triggering Alarm
-         if (alarm_enable && !alarm_triggered && alarm_hour == 0 && alarm_min == 0 && alarm_sec == 0 && 
+         if (alarm_enable && alarm_hour == 0 && alarm_min == 0 && alarm_sec == 0 && 
            hour == 23 && min == 59 && sec == 59) begin
            alarm_buzzer <= 1;
-           alarm_triggered <= 1;
-         end else if (alarm_enable && !alarm_triggered &&
+           //alarm_triggered <= 1;
+         end else if (alarm_enable &&
            hour == alarm_hour && min == alarm_min && sec + 1 == alarm_sec) begin
            alarm_buzzer <= 1;
-           alarm_triggered <= 1;
+           //alarm_triggered <= 1;
          end
 
          // Timer Check
          if (timer_enable) begin
            timer_count_min <= timer_min;
            timer_count_sec <= timer_sec;
-           timer_running <= 1;
+           //timer_running <= 1;
            timer_buzzer <= 0;
          end
          // Triggering Timer 
@@ -194,7 +204,7 @@
            //$display("LEFT TIME: %02d %02d", timer_count_min, timer_count_sec);
            if (timer_count_min == 0 && timer_count_sec == 2) begin
              timer_buzzer <= 1;
-             timer_running <= 0; // Turning it OFF 
+             //timer_running <= 0; // Turning it OFF 
              timer_count_sec <= 0; // Manually resetting timer to 00 00 again
            end else begin // Decrementing (minutes/seconds) otherwise
              if (timer_count_sec == 0) begin

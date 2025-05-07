@@ -1,5 +1,5 @@
 $date
-	Wed May  7 19:36:05 2025
+	Wed May  7 21:55:51 2025
 $end
 $version
 	Icarus Verilog
@@ -37,41 +37,42 @@ $var reg 6 : timer_min [5:0] $end
 $var reg 6 ; timer_sec [5:0] $end
 $var integer 32 < display_mode [31:0] $end
 $var integer 32 = file [31:0] $end
-$var integer 32 > mode [31:0] $end
-$var integer 32 ? res [31:0] $end
-$var integer 32 @ ticks_after_event [31:0] $end
+$var integer 32 > h_waste [31:0] $end
+$var integer 32 ? m_waste [31:0] $end
+$var integer 32 @ mode [31:0] $end
+$var integer 32 A res [31:0] $end
+$var integer 32 B s_waste [31:0] $end
+$var integer 32 C ticks_after_event [31:0] $end
 $upscope $end
 $scope module tb_clock $end
 $scope module uut $end
 $var wire 1 - alarm_enable $end
-$var wire 5 A alarm_hour [4:0] $end
-$var wire 6 B alarm_min [5:0] $end
-$var wire 6 C alarm_sec [5:0] $end
+$var wire 5 D alarm_hour [4:0] $end
+$var wire 6 E alarm_min [5:0] $end
+$var wire 6 F alarm_sec [5:0] $end
 $var wire 1 1 clk $end
 $var wire 1 2 reset $end
-$var wire 5 D set_day [4:0] $end
-$var wire 5 E set_hour [4:0] $end
-$var wire 6 F set_min [5:0] $end
-$var wire 4 G set_month [3:0] $end
-$var wire 6 H set_sec [5:0] $end
-$var wire 12 I set_year [11:0] $end
+$var wire 5 G set_day [4:0] $end
+$var wire 5 H set_hour [4:0] $end
+$var wire 6 I set_min [5:0] $end
+$var wire 4 J set_month [3:0] $end
+$var wire 6 K set_sec [5:0] $end
+$var wire 12 L set_year [11:0] $end
 $var wire 1 9 timer_enable $end
-$var wire 6 J timer_min [5:0] $end
-$var wire 6 K timer_sec [5:0] $end
+$var wire 6 M timer_min [5:0] $end
+$var wire 6 N timer_sec [5:0] $end
 $var reg 1 , AM_enabled $end
 $var reg 1 + alarm_buzzer $end
-$var reg 1 L alarm_triggered $end
-$var reg 5 M day [4:0] $end
-$var reg 3 N day_of_week [2:0] $end
-$var reg 5 O hour [4:0] $end
-$var reg 6 P min [5:0] $end
-$var reg 4 Q month [3:0] $end
-$var reg 6 R sec [5:0] $end
+$var reg 5 O day [4:0] $end
+$var reg 3 P day_of_week [2:0] $end
+$var reg 5 Q hour [4:0] $end
+$var reg 6 R min [5:0] $end
+$var reg 4 S month [3:0] $end
+$var reg 6 T sec [5:0] $end
 $var reg 1 $ timer_buzzer $end
-$var reg 6 S timer_count_min [5:0] $end
-$var reg 6 T timer_count_sec [5:0] $end
-$var reg 1 U timer_running $end
-$var reg 12 V year [11:0] $end
+$var reg 6 U timer_count_min [5:0] $end
+$var reg 6 V timer_count_sec [5:0] $end
+$var reg 12 W year [11:0] $end
 $upscope $end
 $upscope $end
 $enddefinitions $end
@@ -80,31 +81,32 @@ $dumpall
 $end
 #0
 $dumpvars
-b11111101000 V
-0U
-b0 T
-b0 S
-b111001 R
-b101 Q
-b111011 P
-b1000 O
-bx N
-b101 M
-0L
-b0 K
-b0 J
-b11111101000 I
-b111001 H
+b11111101000 W
+b0 V
+b0 U
+b111001 T
+b101 S
+b111011 R
+b1000 Q
+bx P
+b101 O
+b0 N
+b0 M
+b11111101000 L
+b111001 K
+b101 J
+b111011 I
+b1000 H
 b101 G
-b111011 F
-b1000 E
-b101 D
+b0 F
+b0 E
+b0 D
 b0 C
-b0 B
-b0 A
-b0 @
-b110 ?
-b11 >
+bx B
+b110 A
+b11 @
+bx ?
+bx >
 b10000000000000000000000000000011 =
 b10 <
 b0 ;
@@ -136,140 +138,276 @@ b0 "
 b11111101000 !
 $end
 #500
-1U
-b1010 "
-b1010 T
 b0 )
-b0 N
+b0 P
 b111010 %
-b111010 R
+b111010 T
 1,
-1-
-b1010 0
-b1010 C
-19
-b1010 ;
-b1010 K
-b1 ?
-b1 >
+b1 A
+b1 @
 02
 11
 #1000
 01
 #1500
-b1001 "
-b1001 T
 b111011 %
-b111011 R
+b111011 T
 11
 #2000
 01
 #2500
-b1000 "
-b1000 T
 b1001 (
-b1001 O
+b1001 Q
 b0 '
-b0 P
-b0 %
 b0 R
+b0 %
+b0 T
 11
 #3000
 01
 #3500
-b111 "
-b111 T
 b1 %
-b1 R
+b1 T
 11
 #4000
 01
 #4500
-b110 "
-b110 T
 b10 %
-b10 R
+b10 T
 11
 #5000
 01
 #5500
-b11111100100 !
-b11111100100 V
-b1 &
-b1 Q
-b1 *
-b1 M
-b0 %
-b0 R
-b0 (
-b0 O
+b1010 "
+b1010 V
+b11 %
+b11 T
 11
-12
-0-
-09
-b11111100100 8
-b11111100100 I
-b1 6
-b1 G
-b1 3
-b1 D
-b0 7
-b0 H
-b0 5
-b0 F
-b0 4
-b0 E
-b110 >
+1-
+b1010 0
+b1010 F
+19
+b1 A
+b1010 ;
+b1010 N
+b1 @
 #6000
 01
-b0 ?
-12
 #6500
-b11 )
-b11 N
-b1 %
-b1 R
+b1001 "
+b1001 V
+b100 %
+b100 T
 11
-02
 #7000
 01
 #7500
-b10 %
-b10 R
+b1000 "
+b1000 V
+b101 %
+b101 T
 11
-b1 @
 #8000
 01
 #8500
-b11 %
-b11 R
+b111 "
+b111 V
+b110 %
+b110 T
 11
-b10 @
 #9000
 01
 #9500
-b100 %
-b100 R
+b110 "
+b110 V
+b111 %
+b111 T
 11
-b11 @
 #10000
 01
 #10500
-b101 %
-b101 R
+b11111100100 !
+b11111100100 W
+b1 &
+b1 S
+b1 *
+b1 O
+b0 %
+b0 T
+b0 (
+b0 Q
 11
-b100 @
+12
+b110 A
+b11111100100 8
+b11111100100 L
+b1 6
+b1 J
+b1 3
+b1 G
+b0 7
+b0 K
+b0 5
+b0 I
+b0 4
+b0 H
+b11 @
 #11000
 01
+b1010 B
+b0 ?
+b1 A
+b10 @
+02
 #11500
-b110 %
-b110 R
+b101 "
+b101 V
+b11 )
+b11 P
+b1 %
+b1 T
 11
-b101 @
 #12000
 01
 #12500
-b111 %
-b111 R
+b100 "
+b100 V
+b10 %
+b10 T
 11
-b110 @
+#13000
+01
+#13500
+b11 "
+b11 V
+b11 %
+b11 T
+11
+#14000
+01
+#14500
+b10 "
+b10 V
+b100 %
+b100 T
+11
+#15000
+01
+#15500
+1$
+b0 "
+b0 V
+b101 %
+b101 T
+11
+#16000
+01
+b1 @
+09
+#16500
+0$
+b110 %
+b110 T
+11
+#17000
+01
+#17500
+b111 %
+b111 T
+11
+#18000
+01
+#18500
+b1000 %
+b1000 T
+11
+#19000
+01
+#19500
+b1001 %
+b1001 T
+11
+#20000
+01
+#20500
+1+
+b1010 %
+b1010 T
+11
+#21000
+01
+b0 A
+0-
+#21500
+0+
+b1011 %
+b1011 T
+11
+#22000
+01
+#22500
+b1100 %
+b1100 T
+11
+#23000
+01
+#23500
+b1101 %
+b1101 T
+11
+#24000
+01
+#24500
+b1110 %
+b1110 T
+11
+#25000
+01
+#25500
+b1111 %
+b1111 T
+11
+#26000
+01
+#26500
+b10000 %
+b10000 T
+11
+#27000
+01
+b1 C
+#27500
+b10001 %
+b10001 T
+11
+#28000
+01
+b10 C
+#28500
+b10010 %
+b10010 T
+11
+#29000
+01
+b11 C
+#29500
+b10011 %
+b10011 T
+11
+#30000
+01
+b100 C
+#30500
+b10100 %
+b10100 T
+11
+#31000
+01
+b101 C
+#31500
+b10101 %
+b10101 T
+11
+#32000
+01
+b110 C
